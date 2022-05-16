@@ -49,7 +49,8 @@ import React, {
               _id: doc.data()._id,
               createdAt: doc.data().createdAt.toDate(),
               text: doc.data().text,
-              user: doc.data().user
+              user: doc.data().user,
+              name: doc.data().email,
             }))
           );
         });

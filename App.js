@@ -3,11 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, ActivityIndicator } from 'react-native';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './config/firebase';
+// import { auth } from './config/firebase';
 
 import Login from './screens/Login';
 import Signup from './screens/Signup';
 import Chat from './screens/Chat';
+
+import Firebase from './config/firebase';
+import { getAuth } from "firebase/auth";
+const auth = getAuth(Firebase);
+
 
 const Stack = createStackNavigator();
 
@@ -51,21 +56,20 @@ const AuthenticatedUserProvider = ({ children }) => {
 function RootNavigator() {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [isLoading, setIsLoading] = useState(true);
-
-   useEffect(() => {
+console.log(auth,'auth')
+  useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
-    const unsubscribeAuth = onAuthStateChanged(
-      auth,
-      async authenticatedUser => {
-        authenticatedUser ? setUser(authenticatedUser) : setUser(null);
+    const unsubscribeAuth = auth.onAuthStateChanged(async authenticatedUser => {
+      try {
+        await (authenticatedUser ? setUser(authenticatedUser) : setUser(null));
         setIsLoading(false);
+        console.log(authenticatedUser)
+      } catch (error) {
+        console.log(error);
       }
-    );
-
-    // unsubscribe auth listener on unmount
+    });
     return unsubscribeAuth;
-  }, [user]);
-
+  }, []);
 
   if (isLoading) {
     return (
@@ -77,7 +81,7 @@ function RootNavigator() {
 
   return (
     <NavigationContainer>
-      {user ? <ChatStack /> : <AuthStack />}
+    {user ? <ChatStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

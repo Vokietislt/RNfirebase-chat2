@@ -1604,7 +1604,7 @@
   "resolved" "https://registry.npmjs.org/@firebase/firestore-types/-/firestore-types-2.5.0.tgz"
   "version" "2.5.0"
 
-"@firebase/firestore@3.4.9":
+"@firebase/firestore@^3.4.9", "@firebase/firestore@3.4.9":
   "integrity" "sha512-EiSG/uYDyUmrrHlwrsP9WqWI8ChD0hUW/+0MS3NDh8Cfo1Dfb/sM3YWKzgnIZ3wKTxn/nbe9oidHZp5cqI9G+w=="
   "resolved" "https://registry.npmjs.org/@firebase/firestore/-/firestore-3.4.9.tgz"
   "version" "3.4.9"

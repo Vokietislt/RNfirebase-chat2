@@ -25,7 +25,7 @@ export default function App() {
 
 
 
-const AuthenticatedUserContext = createContext({});
+export const AuthenticatedUserContext = createContext({});
 
 const AuthenticatedUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -39,7 +39,7 @@ const AuthenticatedUserProvider = ({ children }) => {
 function RootNavigator() {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [isLoading, setIsLoading] = useState(true);
-console.log(auth,'auth')
+  console.log(auth, 'auth')
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
     const unsubscribeAuth = auth.onAuthStateChanged(async authenticatedUser => {
@@ -64,7 +64,7 @@ console.log(auth,'auth')
 
   return (
     <NavigationContainer>
-    {user ? <ChatStack /> : <AuthStack />}
+      {user ? <ChatStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

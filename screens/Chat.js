@@ -50,7 +50,6 @@ import React, {
               createdAt: doc.data().createdAt.toDate(),
               text: doc.data().text,
               user: doc.data().user,
-              name: doc.data().email,
             }))
           );
         });

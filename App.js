@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, ActivityIndicator } from 'react-native';
 import { onAuthStateChanged } from 'firebase/auth';
-// import { auth } from './config/firebase';
 
 import Login from './screens/Login';
 import Signup from './screens/Signup';
@@ -25,22 +24,6 @@ export default function App() {
 }
 
 
-function ChatStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name='Chat' component={Chat} />
-    </Stack.Navigator>
-  );
-}
-
-function AuthStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Login' component={Login} />
-      <Stack.Screen name='Signup' component={Signup} />
-    </Stack.Navigator>
-  );
-}
 
 const AuthenticatedUserContext = createContext({});
 
@@ -83,5 +66,22 @@ console.log(auth,'auth')
     <NavigationContainer>
     {user ? <ChatStack /> : <AuthStack />}
     </NavigationContainer>
+  );
+}
+
+function ChatStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name='Chat' component={Chat} />
+    </Stack.Navigator>
+  );
+}
+
+function AuthStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='Login' component={Login} />
+      <Stack.Screen name='Signup' component={Signup} />
+    </Stack.Navigator>
   );
 }

@@ -15,7 +15,6 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
-import { doc, setDoc } from "firebase/firestore";
 import { auth, database } from '../config/firebase';
 import { AuthenticatedUserContext } from '../App';
 
@@ -62,18 +61,16 @@ export default function Chat({ navigation }) {
 
   useEffect(() => {
     setZinutes(messages.reverse())
-
     console.log(messages); console.log(user)
   }, [messages])
 
   const onSend = async (messages) => {
-    let sender = await setDoc(doc(database, "chats", "LA"), {
+    let sender = await addDoc(collection(database, "chats"), {
       createdAt: new Date(),
       text: messages.text,
       user: messages.user
     })
     console.log(sender)
-
   };
   return (
     <View style={{ flex: 1, justifyContent: 'flex-end' }}>

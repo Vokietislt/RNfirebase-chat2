@@ -46,7 +46,7 @@ function RootNavigator() {
       try {
         await (authenticatedUser ? setUser(authenticatedUser) : setUser(null));
         setIsLoading(false);
-        console.log(authenticatedUser)
+        // console.log(authenticatedUser)
       } catch (error) {
         console.log(error);
       }

@@ -15,7 +15,7 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
-
+import { doc, setDoc } from "firebase/firestore";
 import { auth, database } from '../config/firebase';
 import { AuthenticatedUserContext } from '../App';
 
@@ -59,42 +59,39 @@ export default function Chat({ navigation }) {
     });
     return () => unsubscribe();
   }, []);
+
   useEffect(() => {
     setZinutes(messages.reverse())
 
     console.log(messages); console.log(user)
   }, [messages])
 
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages)
-    );
-    const { _id, createdAt, text, user } = messages[0];
-    addDoc(collection(database, 'chats'), {
-      _id,
-      createdAt,
-      text,
-      user
-    });
-  }, []);
+  const onSend = async (messages) => {
+    let sender = await setDoc(doc(database, "chats", "LA"), {
+      createdAt: new Date(),
+      text: messages.text,
+      user: messages.user
+    })
+    console.log(sender)
+
+  };
   return (
     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-      {zinutes.map(item => (
-        <View key={new Date(item.createdAt).getTime()}
+      {zinutes.map((item, index) => (
+        <View key={new Date(item.createdAt).getTime() + index}
           style={[styles.messagesContainer, user.email == item.user._id ? styles.mano : '']}>
 
           <Image source={item.user.avatar}
             style={styles.tinyLogo} />
           <View style={styles.userInfo}>
-            {/* <Text  >
+            <Text  >
               {item.user._id}
-            </Text> */}
+            </Text>
 
             <View style={[styles.message, user.email == item.user._id ? styles.myMessage : '']}>
               <Text>
                 {item.text}
               </Text>
-              {/* datos */}
               <Text style={styles.time}>
                 {new Date().getFullYear() != new Date(item.createdAt).getFullYear() ? new Date(item.createdAt).getFullYear() + '-' : ''}
                 {new Date().getDate() != new Date(item.createdAt).getDate() ? new Date(item.createdAt).getMonth() + '-' + new Date(item.createdAt).getDate() : ''}
@@ -104,7 +101,7 @@ export default function Chat({ navigation }) {
                 new Date().getDate() == new Date(item.createdAt).getDate() ?
                 <Text style={styles.time}>  {new Date(item.createdAt).getHours()}:
                   {new Date(item.createdAt).getMinutes()}</Text>
-                : ''
+                : <View></View>
               }
             </View>
           </View>
